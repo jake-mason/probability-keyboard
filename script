@@ -1,0 +1,144 @@
+from __future__ import division
+import sys, os, operator
+import string, copy
+from string import ascii_lowercase
+
+# add to PYTHONPATH a folder containing all necessary third-party modules
+sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
+
+os.chdir("/Users/jacobmason/Documents/Python/probabilistic_keys")
+
+alphabet = list(string.ascii_lowercase)
+words = []
+
+# read-in Norvig Word Library
+with open("Norvig Word Library.txt") as norvig_word_library:
+    for line in norvig_word_library:
+        (key,value) = line.split()
+        words.append(key)
+
+# dictionary to keep track of how often a given letter occurs
+tally = {}
+for a in alphabet:
+    tally[a] = 0
+
+# dictionary to keep track of how often a given letter occurs after a given letter 
+# e.g. how many times does 'd' follow 'a' -- master_dict['a']['d']
+absolute = {}
+
+for a in alphabet:
+    absolute[a] = tally.copy()
+
+for word in words:
+    for i in range(0,len(word)-1):
+        absolute[word[i]][word[i+1]] += 1       
+
+perc = copy.deepcopy(absolute)
+pairs_count = {}
+
+for a in alphabet:
+    count = 0
+    for b in alphabet:
+        count = count + absolute[a][b]  # count number of letter pairs beginning for all a in alphabet
+    pairs_count[a] = count  # number of pairs of letters beginning with a for all a in alphabet
+    for b in alphabet:
+        # for all pairs of two letters - a and b - perc[a][b] now stores how often 
+        # b follows a for all pairs of letters beginning with a
+        perc[a][b] = perc[a][b]/pairs_count[a]*100
+    
+#### begin building keyboard app ####
+
+# first, some cool functions
+
+# most probable subsequent letter
+def mostProbLet(letter):
+    percentage = perc[letter]['a']
+    next = 'a'
+    for a in alphabet:
+        if perc[letter][a] > percentage:
+            percentage = perc[letter][a]
+            next = a
+    print "'{}'".format(next), "follows","'{}'".format(letter),"{0:.2f}%".format(percentage),"of the time"
+
+# probability that a letter follows a given letter
+def probability(prevLetter,letter):
+    print "'{}'".format(letter), "follows","'{}'".format(prevLetter),"{0:.2f}%".format(perc[prevLetter][letter]),"of the time" 
+    return perc[prevLetter][letter]  
+
+# sort either of the two nested dictionaries (absolute or perc), order is either ascending or descending
+def sortTwoLayerDict(dictionary,order):
+    sorted_dict = {}
+    for key, value in dictionary.items():
+        if 'desc' in order:  
+            sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=True)
+        else:
+            sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=False)
+    return sorted_dict
+
+def topX(prevLetter,x,dictionary):
+    d = sortTwoLayerDict(dictionary,'desc')
+    return d[prevLetter][0:x]
+
+def bottomX(prevLetter,x,dictionary):
+    d = sortTwoLayerDict(dictionary,'asc')
+    return d[prevLetter][0:x]
+
+# build full dictionary for any word length
+# use a trie
+
+_end = "_end_"
+
+def trie_maker(words):  # takes an array of words
+    root = dict()
+    for word in words:
+        current_dict = root
+        for letter in word:
+            current_dict = current_dict.setdefault(letter,{})
+        #current_dict[_end] = _end
+    return root
+
+# master trie
+trie = trie_maker(words)
+
+longest_index = words.index(words[0])
+for word in words:
+    if len(word) > len(words[longest_index]):
+        longest_index = words.index(word)
+
+long_word = words[longest_index]
+ 
+
+response = raw_input("Enter a word: ")
+
+recreate_word = response[0]
+d = {}
+d[recreate_word] = response[1:]
+
+index = 1
+while index < len(response) and response[index+1] is not None:
+    recreate_word = recreate_word + response[index]
+    d[d.values()[0][index]] = response[(index+1):]
+    index = index + 1
+   
+d = {}    
+for letter in response:
+    if response.index(letter) == len(response)-1:
+        d[letter] = {}
+    else:
+        d[letter] = response[response.index(letter)+1:]
+    print letter, d[letter]
+
+    
+b_list = ['bleach','bleacher','bleaching']
+    
+    
+    
+# calculate probabilities on-the-fly ... 'salamander'
+    
+    
+    
+    
+    
+    
+    
+print 0
