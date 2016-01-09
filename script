@@ -1,7 +1,8 @@
 from __future__ import division
 import sys, os, operator
 import string, copy
-from string import ascii_lowercase
+from string import ascii_lowercase, letters
+import Tkinter # for the keyboard image
 
 # add to PYTHONPATH a folder containing all necessary third-party modules
 sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
@@ -128,16 +129,50 @@ for letter in response:
         d[letter] = response[response.index(letter)+1:]
     print letter, d[letter]
 
+# returns dictionary of all letters and their respective likelihoods to come after segment
+def nextmostLikely(segment):    
+    # create two dicts: one for word segment ("prefix"); one for next letter
+    segment_dict_main = {}
+    segment_dict_sub = {}
     
-b_list = ['bleach','bleacher','bleaching']
+    # defaultdict both of them so they're mutable
+    segment_dict_sub = defaultdict(lambda: 0, segment_dict_sub)
+    segment_dict_main = defaultdict(lambda: segment_dict_sub, segment_dict)
     
+    word_list = []
     
+    for w in words:
+        if segment in w[:len(segment)] and len(w) > len(segment):  # ensure there's another letter to come
+            word_list.append(w)             # all words that begin with segment (e.g. begin with 'pro')
+    for w in word_list:
+        if len(segment) < len(word):
+            segment_dict_main[segment][w[len(segment)]] += 1
+    segment_dict_perc = {}
+    segment_dict_perc = defaultdict(lambda: defaultdict(lambda: 0), segment_dict_perc)
+    count = sum(segment_dict_main[segment][a] for a in alphabet)    # total number of words beginning with segment, longer than len(segment)
+    for a in alphabet:
+        segment_dict_perc[segment][a] = segment_dict_main[segment][a]/count*100
+    return segment_dict_perc
+
+def printNestedDict(dictionary):
+    for v in dictionary.values():
+        for k1,v1 in v.items():
+            print k1,"{0:.2f}%".format(v1)
+            
+def printRes(word,order):   # ascending or descending
+    for k,v in sortTwoLayerDict(nextmostLikely(word),order).items():
+        for x in v:
+            print "{0:0.2f}% of the time,".format(x[1]), "\"%s\"" % x[0], "is the next letter after \"%s\"" % word
+                
+def getEntry():
+    letter = ''
+    word = ''
+    while True:
+        letter = raw_input("Enter a letter: ")
+        word = word + letter
     
-# calculate probabilities on-the-fly ... 'salamander'
-    
-    
-    
-    
+        
+    letter = raw_input("Enter a letter: ")
     
     
     
