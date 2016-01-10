@@ -5,14 +5,14 @@ from string import ascii_lowercase, letters
 from collections import defaultdict
 
 # add to PYTHONPATH a folder containing all necessary third-party modules
-sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
+sys.path.append('/Users/user/Documents/Python/added_modules')
 
-os.chdir("/Users/jacobmason/Documents/Python/probabilistic_keys")
+os.chdir("/Users/user/Documents/Python/probabilistic_keys")
 
 alphabet = list(string.ascii_lowercase)
 words = []
 
-# read-in Norvig Word Library
+# read-in Norvig Word Library at "http://norvig.com/ngrams/count_1w.txt"
 with open("Norvig Word Library.txt") as norvig_word_library:
     for line in norvig_word_library:
         (key,value) = line.split()
