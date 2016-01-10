@@ -2,7 +2,7 @@ from __future__ import division
 import sys, os, operator
 import string, copy
 from string import ascii_lowercase, letters
-import Tkinter # for the keyboard image
+from collections import defaultdict
 
 # add to PYTHONPATH a folder containing all necessary third-party modules
 sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
@@ -46,10 +46,8 @@ for a in alphabet:
         # for all pairs of two letters - a and b - perc[a][b] now stores how often 
         # b follows a for all pairs of letters beginning with a
         perc[a][b] = perc[a][b]/pairs_count[a]*100
-    
-#### begin building keyboard app ####
 
-# first, some cool functions
+#### functions to explore next-letter probabilities ####
 
 # most probable subsequent letter
 def mostProbLet(letter):
@@ -66,93 +64,84 @@ def probability(prevLetter,letter):
     print "'{}'".format(letter), "follows","'{}'".format(prevLetter),"{0:.2f}%".format(perc[prevLetter][letter]),"of the time" 
     return perc[prevLetter][letter]  
 
+# used in printRes() below; sorting a non-nested dictionary
+def sortDict(dictionary,order):
+    order = order.lower()
+    sorted_dict = {}
+    order_ans = ['des','dec','decreasing','descending','dsc','desc','ascending','asc','inc','increasing']
+    if order not in order_ans:
+        raise ValueError("Indicate ascending (\"asc\") or descending (\"desc\") order as second arg")
+    else:
+        if order in order_ans[:6]:
+            sorted_dict = sorted(dictionary.items(), key=operator.itemgetter(1), reverse = True)
+        elif order in order_ans[6:]:
+            sorted_dict = sorted(dictionary.items(), key=operator.itemgetter(1), reverse = False)
+        return sorted_dict
+
 # sort either of the two nested dictionaries (absolute or perc), order is either ascending or descending
 def sortTwoLayerDict(dictionary,order):
+    order = order.lower()
     sorted_dict = {}
-    for key, value in dictionary.items():
-        if 'desc' in order:  
-            sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=True)
-        else:
-            sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=False)
-    return sorted_dict
+    order_ans = ['des','dec','decreasing','descending','dsc','desc','ascending','asc','inc','increasing']
+    if order not in order_ans:
+        raise ValueError("Indicate ascending (\"asc\") or descending (\"desc\") order as second arg")
+    else:
+        if order in order_ans[:6]:
+            for key, value in dictionary.items():  
+                sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=True)
+        elif order in order_ans[6:]:
+            for key, value in dictionary.items():
+                sorted_dict[key] = sorted(value.items(), key=operator.itemgetter(1), reverse=False)            
+        return sorted_dict
 
 def topX(prevLetter,x,dictionary):
-    d = sortTwoLayerDict(dictionary,'desc')
-    return d[prevLetter][0:x]
+    d = sortTwoLayerDict(dictionary,'desc')[prevLetter][:x]
+    print "\nThe top {} letters to follow \"{}\" are:\n".format(x,prevLetter)
+    for x in d:
+        print "\"{}\",".format(x[0]),"{0:.2f}%".format(x[1]),"of the time"
+    return d
 
 def bottomX(prevLetter,x,dictionary):
-    d = sortTwoLayerDict(dictionary,'asc')
-    return d[prevLetter][0:x]
+    d = sortTwoLayerDict(dictionary,'asc')[prevLetter][:x]
+    print "\nThe top {} letters to follow \"{}\" are:\n".format(x,prevLetter)
+    for x in d:
+        print "\"{}\",".format(x[0]),"{0:.2f}%".format(x[1]),"of the time"
+    return d
 
 # build full dictionary for any word length
-# use a trie
-
-_end = "_end_"
-
+# use a digital tree
 def trie_maker(words):  # takes an array of words
     root = dict()
     for word in words:
         current_dict = root
         for letter in word:
             current_dict = current_dict.setdefault(letter,{})
-        #current_dict[_end] = _end
     return root
 
 # master trie
 trie = trie_maker(words)
 
-longest_index = words.index(words[0])
-for word in words:
-    if len(word) > len(words[longest_index]):
-        longest_index = words.index(word)
-
-long_word = words[longest_index]
- 
-
-response = raw_input("Enter a word: ")
-
-recreate_word = response[0]
-d = {}
-d[recreate_word] = response[1:]
-
-index = 1
-while index < len(response) and response[index+1] is not None:
-    recreate_word = recreate_word + response[index]
-    d[d.values()[0][index]] = response[(index+1):]
-    index = index + 1
-   
-d = {}    
-for letter in response:
-    if response.index(letter) == len(response)-1:
-        d[letter] = {}
-    else:
-        d[letter] = response[response.index(letter)+1:]
-    print letter, d[letter]
-
 # returns dictionary of all letters and their respective likelihoods to come after segment
-def nextmostLikely(segment):    
-    # create two dicts: one for word segment ("prefix"); one for next letter
-    segment_dict_main = {}
-    segment_dict_sub = {}
-    
-    # defaultdict both of them so they're mutable
-    segment_dict_sub = defaultdict(lambda: 0, segment_dict_sub)
-    segment_dict_main = defaultdict(lambda: segment_dict_sub, segment_dict)
-    
+def nextmostLikely(segment):
+    if segment not in words:
+        raise Exception("\"%s\" is a word not contained in this corpus" % segment)  
+    segment_dict_main = defaultdict(lambda: 0, {})
     word_list = []
-    
     for w in words:
         if segment in w[:len(segment)] and len(w) > len(segment):  # ensure there's another letter to come
             word_list.append(w)             # all words that begin with segment (e.g. begin with 'pro')
     for w in word_list:
-        if len(segment) < len(word):
-            segment_dict_main[segment][w[len(segment)]] += 1
-    segment_dict_perc = {}
-    segment_dict_perc = defaultdict(lambda: defaultdict(lambda: 0), segment_dict_perc)
-    count = sum(segment_dict_main[segment][a] for a in alphabet)    # total number of words beginning with segment, longer than len(segment)
-    for a in alphabet:
-        segment_dict_perc[segment][a] = segment_dict_main[segment][a]/count*100
-    return segment_dict_perc
+        if len(segment) < len(w):
+            # augment values in dictionary for the next letter after len(segment)
+            segment_dict_main[w[len(segment)]] += 1
+    segment_dict_perc = defaultdict(lambda: 0, {})
+    count = sum(segment_dict_main[a] for a in alphabet)    # total number of words beginning with segment, longer than len(segment)
+    if count == 0:
+        raise Exception("\"%s\" is the only word of its kind in this corpus: unable to return next-letter probabilities" % segment)
+    else:
+        for a in alphabet:
+            segment_dict_perc[a] = segment_dict_main[a]/count*100
+        return segment_dict_perc
 
 def printNestedDict(dictionary):
     for v in dictionary.values():
@@ -160,20 +149,6 @@ def printNestedDict(dictionary):
             print k1,"{0:.2f}%".format(v1)
             
 def printRes(word,order):   # ascending or descending
-    for k,v in sortTwoLayerDict(nextmostLikely(word),order).items():
-        for x in v:
-            print "{0:0.2f}% of the time,".format(x[1]), "\"%s\"" % x[0], "is the next letter after \"%s\"" % word
-                
-def getEntry():
-    letter = ''
-    word = ''
-    while True:
-        letter = raw_input("Enter a letter: ")
-        word = word + letter
-    
-        
-    letter = raw_input("Enter a letter: ")
-    
-    
-    
-print 0
+    print "Out of {} words,".format(len(words))
+    for x in sortDict(nextmostLikely(word),order):
+        print "{0:0.2f}% of the time,".format(x[1]), "\"%s\"" % x[0], "is the next letter after \"%s\"" % word
