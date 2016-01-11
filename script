@@ -51,6 +51,7 @@ for a in alphabet:
 
 # most probable subsequent letter
 def mostProbLet(letter):
+    letter = letter.lower()
     percentage = perc[letter]['a']
     next = 'a'
     for a in alphabet:
@@ -61,6 +62,7 @@ def mostProbLet(letter):
 
 # probability that a letter follows a given letter
 def probability(prevLetter,letter):
+    letter = letter.lower()
     print "'{}'".format(letter), "follows","'{}'".format(prevLetter),"{0:.2f}%".format(perc[prevLetter][letter]),"of the time" 
     return perc[prevLetter][letter]  
 
@@ -95,6 +97,7 @@ def sortTwoLayerDict(dictionary,order):
         return sorted_dict
 
 def topX(prevLetter,x,dictionary):
+    prevLetter = prevLetter.lower()
     d = sortTwoLayerDict(dictionary,'desc')[prevLetter][:x]
     print "\nThe top {} letters to follow \"{}\" are:\n".format(x,prevLetter)
     for x in d:
@@ -102,6 +105,7 @@ def topX(prevLetter,x,dictionary):
     return d
 
 def bottomX(prevLetter,x,dictionary):
+    prevLetter = prevLetter.lower()
     d = sortTwoLayerDict(dictionary,'asc')[prevLetter][:x]
     print "\nThe top {} letters to follow \"{}\" are:\n".format(x,prevLetter)
     for x in d:
@@ -128,6 +132,7 @@ trie = trie_maker(words)
 
 # returns dictionary of all letters and their respective likelihoods to come after segment
 def nextmostLikely(segment):
+    segment = segment.lower()
     if segment not in words:
         raise Exception("\"%s\" is a word not contained in this corpus" % segment)  
     segment_dict_main = defaultdict(lambda: 0, {})
@@ -149,6 +154,8 @@ def nextmostLikely(segment):
         return segment_dict_perc
             
 def printRes(word,order):   # ascending or descending
+    word = word.lower()
+    order = order.lower()
     print "Out of {} words,".format(len(words))
     for x in sortDict(nextmostLikely(word),order):
         print "{0:0.2f}% of the time,".format(x[1]), "\"%s\"" % x[0], "is the next letter after \"%s\"" % word
@@ -158,6 +165,7 @@ def procEntry():
     run = 0
     while True:
         initial = raw_input("Enter a letter, or press 'enter' to exit: \n")
+        initial = initial.lower()
         if run == 0:
             printRes(initial,"desc")
             res = '' + initial
