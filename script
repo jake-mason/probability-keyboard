@@ -5,9 +5,9 @@ from string import ascii_lowercase, letters
 from collections import defaultdict
 
 # add to PYTHONPATH a folder containing all necessary third-party modules
-sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
+sys.path.append('/Users/user/Documents/Python/added_modules')
 
-os.chdir("/Users/jacobmason/Documents/Python/probabilistic_keys")
+os.chdir("/Users/user/Documents/Python/probabilistic_keys")
 
 alphabet = list(string.ascii_lowercase)
 words = []
