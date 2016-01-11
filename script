@@ -5,14 +5,14 @@ from string import ascii_lowercase, letters
 from collections import defaultdict
 
 # add to PYTHONPATH a folder containing all necessary third-party modules
-sys.path.append('/Users/user/Documents/Python/added_modules')
+sys.path.append('/Users/jacobmason/Documents/Python/added_modules')
 
-os.chdir("/Users/user/Documents/Python/probabilistic_keys")
+os.chdir("/Users/jacobmason/Documents/Python/probabilistic_keys")
 
 alphabet = list(string.ascii_lowercase)
 words = []
 
-# read-in Norvig Word Library at "http://norvig.com/ngrams/count_1w.txt"
+# read-in Norvig Word Library http://norvig.com/ngrams/count_1w.txt
 with open("Norvig Word Library.txt") as norvig_word_library:
     for line in norvig_word_library:
         (key,value) = line.split()
@@ -108,6 +108,11 @@ def bottomX(prevLetter,x,dictionary):
         print "\"{}\",".format(x[0]),"{0:.2f}%".format(x[1]),"of the time"
     return d
 
+def printNestedDict(dictionary):
+    for v in dictionary.values():
+        for k1,v1 in v.items():
+            print k1,"{0:.2f}%".format(v1)
+            
 # build full dictionary for any word length
 # use a digital tree
 def trie_maker(words):  # takes an array of words
@@ -142,13 +147,23 @@ def nextmostLikely(segment):
         for a in alphabet:
             segment_dict_perc[a] = segment_dict_main[a]/count*100
         return segment_dict_perc
-
-def printNestedDict(dictionary):
-    for v in dictionary.values():
-        for k1,v1 in v.items():
-            print k1,"{0:.2f}%".format(v1)
             
 def printRes(word,order):   # ascending or descending
     print "Out of {} words,".format(len(words))
     for x in sortDict(nextmostLikely(word),order):
         print "{0:0.2f}% of the time,".format(x[1]), "\"%s\"" % x[0], "is the next letter after \"%s\"" % word
+
+# get entries from user
+def procEntry():
+    run = 0
+    while True:
+        initial = raw_input("Enter a letter, or press 'enter' to exit: \n")
+        if run == 0:
+            printRes(initial,"desc")
+            res = '' + initial
+        else:
+            res += initial
+            printRes(res,"desc")
+        run += 1
+        if not initial:
+            break
