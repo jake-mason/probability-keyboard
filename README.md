@@ -11,10 +11,6 @@ Running **procEntryMap**() from the *simplified_script* module allows you to ent
 
 As a demonstration, here's the output from the first few letters of "orange." 
 
-![alt text](Users/jacobmason/Documents/Python/probabilistic_keys/keyboard_map_o.bmp "Added the 'o'")
-
-* First, I enter "o"; the full string is "o" !["o" output](http://imgur.com/vehue0r). 
-* Next, I enter "r"; the full string is "or" !["or" output](http://imgur.com/jHkOmSi). 
-* Finally, I'll enter "a"; the full string is "ora" !["ora" output](http://imgur.com/HgRZv72).
-
-[[https://github.com/jake-mason/probability_keyboard/blob/master/img/o.png|alt=octocat]]
+* First, I enter "o"; the [full string](http://imgur.com/vehue0r) is "o".
+* Next, I enter "r"; the [full string](http://imgur.com/jHkOmSi) is now "or".
+* Finally, I'll enter "a"; the [full string](http://imgur.com/HgRZv72) is now "ora".
