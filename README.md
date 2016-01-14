@@ -1,6 +1,10 @@
 #probability_keyboard
-This app shows the likeliest characters to follow a given string entry. 
+This app displays a keyboard "heatmap" which shows the likeliest characters to follow a given string entry. 
 
-Right now, running **procEntry**() allows you to enter a word, letter by letter, and see how the most likely next letter changes as more letters are added to the string.
+Running **procEntryMap**() from the *simplified_script* module allows you to enter a word, letter by letter, and see how the most likely next letter changes as more letters are added to the string. A keyboard heatmap pops up on-screen after each letter is added, showing how likely a letter is to follow a string entry.
 
-Further functionality to display a keyboard and change the color of keys to indicate a letter's likelihood of occurring next is being developed.
+**Dependencies**:
+
+  Python Imaging Library (PIL): **Image**, **ImageDraw**, **ImageFont**
+
+  Numpy
