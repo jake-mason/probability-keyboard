@@ -10,6 +10,6 @@ Running **procEntryMap**() from the *simplified_script* module allows you to ent
 **An example**
 
 As a demonstration, here's the output from the first few letters of "orange." 
-* First, I enter "o"; here's the !['o' output](http://imgur.com/vehue0r). 
-* Next, I enter 'r'; here's the !['or' output](http://imgur.com/jHkOmSi). 
-* Finally, I'll enter 'a'; here's the !['ora' output](http://imgur.com/HgRZv72).
+* First, I enter "o"; the full string is "o" !["o" output](http://imgur.com/vehue0r). 
+* Next, I enter "r"; the full string is "or" !["or" output](http://imgur.com/jHkOmSi). 
+* Finally, I'll enter "a"; the full string is "ora" !["ora" output](http://imgur.com/HgRZv72).
