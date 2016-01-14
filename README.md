@@ -13,3 +13,5 @@ As a demonstration, here's the output from the first few letters of "orange."
 * First, I enter "o"; the full string is "o" !["o" output](http://imgur.com/vehue0r). 
 * Next, I enter "r"; the full string is "or" !["or" output](http://imgur.com/jHkOmSi). 
 * Finally, I'll enter "a"; the full string is "ora" !["ora" output](http://imgur.com/HgRZv72).
+
+[[https://github.com/jake-mason/probability_keyboard/blob/master/img/o.png|alt=octocat]]
