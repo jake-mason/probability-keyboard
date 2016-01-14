@@ -18,8 +18,8 @@ The *all_functions* module contains a variety of functions, allowing the user to
 
 As a demonstration, here's the output from the first few letters of "orange." At each step of the process, the program calculates each letter's probability of occurring after the full string. So, a user might wonder how likely it is that an "n" follows "ora". This progression is observed below:
 
-* First, enter "o"; the full string is now "o". !["o"](https://cloud.githubusercontent.com/assets/15989526/12326596/6876ffce-ba97-11e5-8699-84b2093c29df.png)
+* First, enter "o"; the full string is now "o". !["o"](http://i.imgur.com/jjQzYOK.png)
 
-* Next, enter "r"; the full string is now "or". !["or"](https://cloud.githubusercontent.com/assets/15989526/12326598/6ce7f81a-ba97-11e5-9cea-f620f1814f71.png)
+* Next, enter "r"; the full string is now "or". !["or"](http://i.imgur.com/ZXxkIzN.png)
 
-* Finally - to end this demonstration - enter "a"; the full string is now "ora". !["ora"](https://cloud.githubusercontent.com/assets/15989526/12326601/6f5a9300-ba97-11e5-9355-047d52c72f61.png)
+* Finally - to end this demonstration - enter "a"; the full string is now "ora". !["ora"](http://i.imgur.com/NQGhvAj.png)
