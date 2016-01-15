@@ -143,9 +143,8 @@ def nextmostLikely(segment):
         if segment in w[:len(segment)] and len(w) > len(segment):  # ensure there's another letter to come
             word_list.append(w)             # all words that begin with segment (e.g. begin with 'pro')
     for w in word_list:
-        if len(segment) < len(w):
-            # augment values in dictionary for the next letter after len(segment)
-            segment_dict_main[w[len(segment)]] += 1
+        # augment values in dictionary for the next letter after len(segment)
+        segment_dict_main[w[len(segment)]] += 1
     segment_dict_perc = defaultdict(lambda: 0, {})
     count = sum(segment_dict_main[a] for a in alphabet)    # total number of words beginning with segment, longer than len(segment)
     if count == 0:
