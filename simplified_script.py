@@ -65,7 +65,6 @@ def procEntryMap():
 if __name__ == "__main__":
 
     import sys, os
-    import string
     from string import ascii_lowercase
     from collections import defaultdict
     from PIL import Image, ImageDraw, ImageFont
@@ -76,7 +75,7 @@ if __name__ == "__main__":
     
     os.chdir("/Users/user/Documents/Python/probabilistic_keys")
     
-    alphabet = list(string.ascii_lowercase)
+    alphabet = list(ascii_lowercase)
     words = []
     
     # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
