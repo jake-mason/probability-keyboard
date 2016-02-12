@@ -1,26 +1,4 @@
 from __future__ import division
-import sys, os
-import string
-from string import ascii_lowercase
-from collections import defaultdict
-from PIL import Image, ImageDraw, ImageFont
-import numpy as np
-
-# add to PYTHONPATH a folder containing all necessary third-party modules
-sys.path.append("/Users/user/Documents/Python/added_modules")
-
-os.chdir("/Users/user/Documents/Python/probabilistic_keys")
-
-alphabet = list(string.ascii_lowercase)
-words = []
-
-# read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
-with open("Norvig Word Library.txt") as norvig_word_library:
-    for line in norvig_word_library:
-        (key,value) = line.split()
-        words.append(key)
-        
-#### function to explore next-letter probabilities ####
 
 # returns dictionary of all letters and their respective likelihoods to come after segment
 def nextmostLikely(segment):
@@ -43,36 +21,6 @@ def nextmostLikely(segment):
         for a in alphabet:
             segment_dict_perc[a] = segment_dict_main[a]/count*100
         return segment_dict_perc
-
-#### link keyboard image with back-end data ####
-
-# create a new image to get dimensions for keyboard dictionary creation
-pic = Image.new("RGB",(800,200),"white")
-width, height = pic.size[0], pic.size[1]
-x_incr, y_incr = int(width/10), int(height/3)
-
-# coordinates of each letter on a grid; {'letter':[(x_min,x_max),(y_min,y_max)]}
-keyboard = {
-          # first row
-          'q':[(0,x_incr),(0,y_incr)],'w':[(x_incr,2*x_incr),(0,y_incr)],
-          'e':[(2*x_incr,3*x_incr),(0,y_incr)],'r':[(3*x_incr,4*x_incr),(0,y_incr)],
-          't':[(4*x_incr,5*x_incr),(0,y_incr)],'y':[(5*x_incr,6*x_incr),(0,y_incr)],
-          'u':[(6*x_incr,7*x_incr),(0,y_incr)],'i':[(7*x_incr,8*x_incr),(0,y_incr)],         
-          'o':[(8*x_incr,9*x_incr),(0,y_incr)],'p':[(9*x_incr,10*x_incr),(0,y_incr)],
-          
-          # next row
-          'a':[(0,x_incr),(y_incr,2*y_incr)],'s':[(x_incr,2*x_incr),(y_incr,2*y_incr)],
-          'd':[(2*x_incr,3*x_incr),(y_incr,2*y_incr)],'f':[(3*x_incr,4*x_incr),(y_incr,2*y_incr)],
-          'g':[(4*x_incr,5*x_incr),(y_incr,2*y_incr)],'h':[(5*x_incr,6*x_incr),(y_incr,2*y_incr)],
-          'j':[(6*x_incr,7*x_incr),(y_incr,2*y_incr)],'k':[(7*x_incr,8*x_incr),(y_incr,2*y_incr)],
-          'l':[(8*x_incr,9*x_incr),(y_incr,2*y_incr)],
-
-          # final row
-          'z':[(0,x_incr),(2*y_incr,3*y_incr)],'x':[(x_incr,2*x_incr),(2*y_incr,3*y_incr)],
-          'c':[(2*x_incr,3*x_incr),(2*y_incr,3*y_incr)],'v':[(3*x_incr,4*x_incr),(2*y_incr,3*y_incr)],
-          'b':[(4*x_incr,5*x_incr),(2*y_incr,3*y_incr)],'n':[(5*x_incr,6*x_incr),(2*y_incr,3*y_incr)],
-          'm':[(6*x_incr,7*x_incr),(2*y_incr,3*y_incr)]
-          }
 
 def changeColors(segment):
     # wipe the picture slate clean
@@ -112,4 +60,57 @@ def procEntryMap():
         run += 1
         changeColors(res)   # show keyboard heatmap
         if not initial:
-            break
+            break 
+    
+if __name__ == "__main__":
+
+    import sys, os
+    import string
+    from string import ascii_lowercase
+    from collections import defaultdict
+    from PIL import Image, ImageDraw, ImageFont
+    import numpy as np
+    
+    # add to PYTHONPATH a folder containing all necessary third-party modules
+    sys.path.append("/Users/user/Documents/Python/added_modules")
+    
+    os.chdir("/Users/user/Documents/Python/probabilistic_keys")
+    
+    alphabet = list(string.ascii_lowercase)
+    words = []
+    
+    # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
+    with open("Norvig Word Library.txt") as norvig_word_library:
+        for line in norvig_word_library:
+            (key,value) = line.split()
+            words.append(key)
+
+    # create a new image to get dimensions for keyboard dictionary creation
+    pic = Image.new("RGB",(800,200),"white")
+    width, height = pic.size[0], pic.size[1]
+    x_incr, y_incr = int(width/10), int(height/3)
+    
+    # coordinates of each letter on a grid; {'letter':[(x_min,x_max),(y_min,y_max)]}
+    keyboard = {
+              # first row
+              'q':[(0,x_incr),(0,y_incr)],'w':[(x_incr,2*x_incr),(0,y_incr)],
+              'e':[(2*x_incr,3*x_incr),(0,y_incr)],'r':[(3*x_incr,4*x_incr),(0,y_incr)],
+              't':[(4*x_incr,5*x_incr),(0,y_incr)],'y':[(5*x_incr,6*x_incr),(0,y_incr)],
+              'u':[(6*x_incr,7*x_incr),(0,y_incr)],'i':[(7*x_incr,8*x_incr),(0,y_incr)],         
+              'o':[(8*x_incr,9*x_incr),(0,y_incr)],'p':[(9*x_incr,10*x_incr),(0,y_incr)],
+              
+              # next row
+              'a':[(0,x_incr),(y_incr,2*y_incr)],'s':[(x_incr,2*x_incr),(y_incr,2*y_incr)],
+              'd':[(2*x_incr,3*x_incr),(y_incr,2*y_incr)],'f':[(3*x_incr,4*x_incr),(y_incr,2*y_incr)],
+              'g':[(4*x_incr,5*x_incr),(y_incr,2*y_incr)],'h':[(5*x_incr,6*x_incr),(y_incr,2*y_incr)],
+              'j':[(6*x_incr,7*x_incr),(y_incr,2*y_incr)],'k':[(7*x_incr,8*x_incr),(y_incr,2*y_incr)],
+              'l':[(8*x_incr,9*x_incr),(y_incr,2*y_incr)],
+    
+              # final row
+              'z':[(0,x_incr),(2*y_incr,3*y_incr)],'x':[(x_incr,2*x_incr),(2*y_incr,3*y_incr)],
+              'c':[(2*x_incr,3*x_incr),(2*y_incr,3*y_incr)],'v':[(3*x_incr,4*x_incr),(2*y_incr,3*y_incr)],
+              'b':[(4*x_incr,5*x_incr),(2*y_incr,3*y_incr)],'n':[(5*x_incr,6*x_incr),(2*y_incr,3*y_incr)],
+              'm':[(6*x_incr,7*x_incr),(2*y_incr,3*y_incr)]
+              }
+    # run it
+    procEntryMap()
