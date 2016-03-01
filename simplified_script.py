@@ -57,7 +57,7 @@ def procEntryMap():
             res = '' + initial
         else:
             res += initial
-        run += 1
+        run = 1
         changeColors(res)   # show keyboard heatmap
         if not initial:
             break 
@@ -69,11 +69,6 @@ if __name__ == "__main__":
     from collections import defaultdict
     from PIL import Image, ImageDraw, ImageFont
     import numpy as np
-    
-    # add to PYTHONPATH a folder containing all necessary third-party modules
-    sys.path.append("/Users/user/Documents/Python/added_modules")
-    
-    os.chdir("/Users/user/Documents/Python/probabilistic_keys")
     
     alphabet = list(ascii_lowercase)
     words = []
@@ -91,21 +86,21 @@ if __name__ == "__main__":
     
     # coordinates of each letter on a grid; {'letter':[(x_min,x_max),(y_min,y_max)]}
     keyboard = {
-              # first row
+              # top row
               'q':[(0,x_incr),(0,y_incr)],'w':[(x_incr,2*x_incr),(0,y_incr)],
               'e':[(2*x_incr,3*x_incr),(0,y_incr)],'r':[(3*x_incr,4*x_incr),(0,y_incr)],
               't':[(4*x_incr,5*x_incr),(0,y_incr)],'y':[(5*x_incr,6*x_incr),(0,y_incr)],
               'u':[(6*x_incr,7*x_incr),(0,y_incr)],'i':[(7*x_incr,8*x_incr),(0,y_incr)],         
               'o':[(8*x_incr,9*x_incr),(0,y_incr)],'p':[(9*x_incr,10*x_incr),(0,y_incr)],
               
-              # next row
+              # middle row
               'a':[(0,x_incr),(y_incr,2*y_incr)],'s':[(x_incr,2*x_incr),(y_incr,2*y_incr)],
               'd':[(2*x_incr,3*x_incr),(y_incr,2*y_incr)],'f':[(3*x_incr,4*x_incr),(y_incr,2*y_incr)],
               'g':[(4*x_incr,5*x_incr),(y_incr,2*y_incr)],'h':[(5*x_incr,6*x_incr),(y_incr,2*y_incr)],
               'j':[(6*x_incr,7*x_incr),(y_incr,2*y_incr)],'k':[(7*x_incr,8*x_incr),(y_incr,2*y_incr)],
               'l':[(8*x_incr,9*x_incr),(y_incr,2*y_incr)],
     
-              # final row
+              # bottom row
               'z':[(0,x_incr),(2*y_incr,3*y_incr)],'x':[(x_incr,2*x_incr),(2*y_incr,3*y_incr)],
               'c':[(2*x_incr,3*x_incr),(2*y_incr,3*y_incr)],'v':[(3*x_incr,4*x_incr),(2*y_incr,3*y_incr)],
               'b':[(4*x_incr,5*x_incr),(2*y_incr,3*y_incr)],'n':[(5*x_incr,6*x_incr),(2*y_incr,3*y_incr)],
