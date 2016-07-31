@@ -1,4 +1,9 @@
+import sys, os
 from __future__ import division
+from string import ascii_lowercase
+from collections import defaultdict
+from PIL import Image, ImageDraw, ImageFont
+import numpy as np
 
 # returns dictionary of all letters and their respective likelihoods to come after segment
 def nextmostLikely(segment):
@@ -64,20 +69,14 @@ def procEntryMap():
     
 if __name__ == "__main__":
 
-    import sys, os
-    from string import ascii_lowercase
-    from collections import defaultdict
-    from PIL import Image, ImageDraw, ImageFont
-    import numpy as np
-    
     alphabet = list(ascii_lowercase)
     words = []
     
     # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
     with open("Norvig Word Library.txt") as norvig_word_library:
         for line in norvig_word_library:
-            (key,value) = line.split()
-            words.append(key)
+            (word,count) = line.split()
+            words.append(word)
 
     # create a new image to get dimensions for keyboard dictionary creation
     pic = Image.new("RGB",(800,200),"white")
