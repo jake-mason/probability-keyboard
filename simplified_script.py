@@ -70,13 +70,13 @@ def procEntryMap():
 if __name__ == "__main__":
 
     alphabet = list(ascii_lowercase)
-    words = []
+    words = set()
     
     # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
     with open("Norvig Word Library.txt") as norvig_word_library:
         for line in norvig_word_library:
             (word,count) = line.split()
-            words.append(word)
+            words.add(word)
 
     # create a new image to get dimensions for keyboard dictionary creation
     pic = Image.new("RGB",(800,200),"white")
