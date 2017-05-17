@@ -1,17 +1,15 @@
 def next_most_likely(segment):
     '''
-    Finds the letters most likely to follow a given string
+    Finds the letters most likely to follow a given string.
     
     Parameters:
         segment: str
     
     Returns:
-        If no words follow a given segment, an Exception is raised. Otherwise:
-            
+        If no words follow a given segment, the program exits. Otherwise:
+
         percs: dict, how often (percentage-wise) each letter in ascii_lowercase
                     occurs following `segment`
-                    
-
     '''
     segment = segment.lower().strip()
     
@@ -78,27 +76,20 @@ def change_colors(segment):
             for j in range(y_min, y_max):   # height pixels
                 pic.putpixel((i,j), (255-new_color, 255-new_color, 255))
                 
-        xmean = int(np.mean([x_min, x_max])-5)
-        ymean = int(np.mean([y_min, y_max])-25)
+        xmean = int(np.mean((x_min, x_max))-5)
+        ymean = int(np.mean((y_min, y_max))-25)
         
-        draw.text((xmean, ymean),
-                  k,
-                  (0, 0, 0),
-                  font=font_let)
+        draw.text((xmean, ymean), k,
+                  (0, 0, 0), font=font_let)
         
         draw.text((xmean-10,  ymean+30),
-                  '{0:.2f}%'.format(perc),
-                  (0, 0, 0),
-                  font = font_perc)
+                  '{0:.2f}%'.format(perc), (0, 0, 0), font=font_perc)
         
         draw = ImageDraw.Draw(pic)
         
-    draw.text((int(width*0.75), int(height*0.75)),
-          "Entry: '%s'" % segment,
-          (0, 0, 0),
-          font = font_let)
+    draw.text((int(width*0.75), int(height*0.75)), "Entry: '%s'" % segment,
+          (0, 0, 0), font=font_let)
     draw = ImageDraw.Draw(pic)
-    
     pic.show()
 
 # run run(); enter a letter and see the initial keyboard heatmap
