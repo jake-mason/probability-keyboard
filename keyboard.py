@@ -53,7 +53,7 @@ def change_colors(segment):
     pic = Image.new("RGB", (800, 200), "white")
     
     # get font from 'http://www5.miele.nl/apps/vg/nl/miele/mielea02.nsf/0e87ea0c369c2704c12568ac005c1831/07583f73269e053ac1257274003344e0?OpenDocument'
-    font_path = "../Documents/Python/probabilistic_keys/arial.ttf"
+    font_path = "arial.ttf"
     font_let = ImageFont.truetype(font_path, 25)
     font_perc = ImageFont.truetype(font_path, 15)
     
@@ -76,8 +76,8 @@ def change_colors(segment):
             for j in range(y_min, y_max):   # height pixels
                 pic.putpixel((i,j), (255-new_color, 255-new_color, 255))
                 
-        xmean = int(np.mean((x_min, x_max))-5)
-        ymean = int(np.mean((y_min, y_max))-25)
+        xmean = int(statistics.mean((x_min, x_max))-5)
+        ymean = int(statistics.mean((y_min, y_max))-25)
         
         draw.text((xmean, ymean), k,
                   (0, 0, 0), font=font_let)
@@ -111,11 +111,12 @@ def main():
 
 if __name__ == "__main__":
 
-    import os, sys
+    import os
+    import sys
     from string import ascii_lowercase
     from collections import defaultdict
     from PIL import Image, ImageDraw, ImageFont
-    import numpy as np
+    import statistics
     
     # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
     WORDS = {line.split("\t")[0].strip().lower() 
