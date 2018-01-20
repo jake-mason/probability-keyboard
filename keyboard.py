@@ -1,3 +1,10 @@
+import os
+import sys
+from string import ascii_lowercase
+from collections import defaultdict
+from PIL import Image, ImageDraw, ImageFont
+import statistics
+
 def next_most_likely(segment):
     '''
     Finds the letters most likely to follow a given string.
@@ -104,19 +111,12 @@ def main():
         else:
             if run == 0:
                 word = '' + entry
+                run = 1
             else:
                 word += entry
-        run += 1
         change_colors(word)   # show keyboard heatmap
 
 if __name__ == "__main__":
-
-    import os
-    import sys
-    from string import ascii_lowercase
-    from collections import defaultdict
-    from PIL import Image, ImageDraw, ImageFont
-    import statistics
     
     # read-in Norvig Word Library. Obtained from 'http://norvig.com/ngrams/count_1w.txt'
     WORDS = {line.split("\t")[0].strip().lower() 
