@@ -1,1 +1,3 @@
 Pillow
+flask
+flask-restful
